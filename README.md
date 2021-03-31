@@ -1,5 +1,12 @@
 # MakStat-Revised
 
+## Steps to run the setup in your computer
+- make sure you have installed Docker (for Windows, see Docker Desktop), and docker-compose. 
+- clone the repo
+- change working dir to the repo dir: `cd makstat-revised`
+- create the required env variables: `cp example.env .env`
+- start all containers: `docker-compose up`
+
 ## Docker Setup
 - The `docker` folder contains the setup for deployable images.
   The same images are used as basis for the development setup.
