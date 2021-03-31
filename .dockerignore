@@ -1,0 +1,14 @@
+# by default, remove all files from the docker build context
+/*
+
+# the following folders are available in the build context
+!.env
+!/docker/*
+!/backend/*
+!/frontend/*
+
+# always ignore these types of files
+/frontend/build
+/frontend/node_modules
+/frontend/npm-debug.log
+/backend/target

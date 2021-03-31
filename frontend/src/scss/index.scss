@@ -1,0 +1,13 @@
+html, body {
+    scroll-behavior: smooth;
+
+    a {
+        transition: ease-out;
+        transition-duration: .1s;
+    }
+
+    a:hover {
+        transition: ease-out;
+        transition-duration: .1s;
+    }
+}
