@@ -13,4 +13,4 @@
 - build single container: `docker-compose build <service-name>`
 - run single container: `docker-compose run <service-name>`
 - run single container with different command: e.g. `docker-compose run <service-name> bash -c 'echo hello world'`
-- list and remove volumes (NOTE this will remove database data and app cache): `docker volume ls` & `docker volume rm <volume-name>`
+- list and remove volumes: `docker volume ls` & `docker volume rm <volume-name>`
