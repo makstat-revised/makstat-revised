@@ -12,7 +12,7 @@ services:
       - database
     volumes:
       - ./backend:/makstat # bind-mount source code
-      - mvn_cache:/home/backend/.m2 # maven cache for non-root
+      - mvn_cache:/root/.m2 # maven cache for root
     ports:
       - ${DC_BACKEND_TOMCAT_PORT}:8080
       - ${DC_BACKEND_DEBUG_PORT}:5005
@@ -32,7 +32,7 @@ services:
       dockerfile: ./docker/frontend/Dockerfile
     volumes:
       - ./frontend:/makstat # bind-mount source code
-      - npm_cache:/home/node/.npm # npm cache for non-root
+      - npm_cache:/root/.npm # npm cache for root
     ports:
       - ${DC_FRONTEND_PORT}:5000
     environment:

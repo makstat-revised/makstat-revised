@@ -1,8 +1,5 @@
 FROM maven:3.6.3-jdk-11
 
-# create maven cache
-RUN mkdir -p /home/backend/.m2
-
 # create /makstat folder (bind-mount location)
 RUN mkdir /makstat
 WORKDIR /makstat

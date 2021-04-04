@@ -35,7 +35,10 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "bundle.js"
+        filename: "[name].bundle.js"
+    },
+    optimization: {
+        splitChunks: { chunks: "all" }
     },
     devtool: "source-map",
     devServer: {
