@@ -13,7 +13,7 @@ public class UnemploymentRate {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     @ManyToOne
     private SubCategory subCategory;
     @Column(nullable = false)
@@ -25,11 +25,11 @@ public class UnemploymentRate {
     public UnemploymentRate() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

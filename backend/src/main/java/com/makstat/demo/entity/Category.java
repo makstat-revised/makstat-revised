@@ -10,18 +10,18 @@ import javax.persistence.Id;
 public class Category {
 
     @Id
-    private Long id;
+    private Integer id;
     @Column(unique = true)
     private String name;
 
     public Category() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
