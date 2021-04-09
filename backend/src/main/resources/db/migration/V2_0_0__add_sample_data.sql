@@ -1,8 +1,8 @@
 -- -- populate public.category
 
-INSERT INTO public.category ("name") VALUES('sector');
+-- INSERT INTO public.category ("name") VALUES('sector');
 
-INSERT INTO public.category ("name") VALUES('ageGroup');
+-- INSERT INTO public.category ("name") VALUES('ageGroup');
 
 
 -- -- populate public.sub_category
