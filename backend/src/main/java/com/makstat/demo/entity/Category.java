@@ -1,7 +1,8 @@
-package com.makstat.demo.entity.pet;
+package com.makstat.demo.entity;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,9 +10,19 @@ import javax.persistence.Id;
 public class Category {
 
     @Id
+    private Long id;
+    @Column(unique = true)
     private String name;
 
     public Category() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -30,17 +41,17 @@ public class Category {
             return false;
         }
         Category category = (Category) o;
-        return Objects.equals(name, category.name);
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(id, name);
     }
 
     @Override
     public String toString() {
-        return "{" + " name='" + getName() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + "}";
     }
 
 }

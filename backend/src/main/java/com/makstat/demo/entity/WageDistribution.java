@@ -1,4 +1,4 @@
-package com.makstat.demo.entity.pet;
+package com.makstat.demo.entity;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class EmployeeCount {
+public class WageDistribution {
 
     @Id
     @GeneratedValue
@@ -19,11 +19,11 @@ public class EmployeeCount {
     @Column(nullable = false)
     private int year;
     @ManyToOne
-    private Sex sex;
+    private SubCategory wageGroup;
     @Column(nullable = false)
     private int count;
 
-    public EmployeeCount() {
+    public WageDistribution() {
     }
 
     public Long getId() {
@@ -42,20 +42,20 @@ public class EmployeeCount {
         this.subCategory = subCategory;
     }
 
-    public Sex getSex() {
-        return this.sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
     public int getYear() {
         return this.year;
     }
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public SubCategory getWageGroup() {
+        return this.wageGroup;
+    }
+
+    public void setWageGroup(SubCategory wageGroup) {
+        this.wageGroup = wageGroup;
     }
 
     public int getCount() {
@@ -70,23 +70,24 @@ public class EmployeeCount {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof EmployeeCount)) {
+        if (!(o instanceof WageDistribution)) {
             return false;
         }
-        EmployeeCount employeeCount = (EmployeeCount) o;
-        return Objects.equals(id, employeeCount.id) && Objects.equals(subCategory, employeeCount.subCategory)
-                && year == employeeCount.year && Objects.equals(sex, employeeCount.sex) && count == employeeCount.count;
+        WageDistribution wageDistribution = (WageDistribution) o;
+        return Objects.equals(id, wageDistribution.id) && Objects.equals(subCategory, wageDistribution.subCategory)
+                && year == wageDistribution.year && Objects.equals(wageGroup, wageDistribution.wageGroup)
+                && count == wageDistribution.count;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subCategory, year, sex, count);
+        return Objects.hash(id, subCategory, year, wageGroup, count);
     }
 
     @Override
     public String toString() {
         return "{" + " id='" + getId() + "'" + ", subCategory='" + getSubCategory() + "'" + ", year='" + getYear() + "'"
-                + ", sex='" + getSex() + "'" + ", count='" + getCount() + "'" + "}";
+                + ", wageGroup='" + getWageGroup() + "'" + ", count='" + getCount() + "'" + "}";
     }
 
 }
