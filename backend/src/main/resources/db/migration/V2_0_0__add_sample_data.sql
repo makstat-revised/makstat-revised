@@ -1,166 +1,33 @@
--- -- populate public.category
+-- populate public.category
 
--- INSERT INTO public.category ("name") VALUES('sector');
+INSERT INTO "category" ("id", "name") VALUES
+(1,	'sector'),
+(2,	'ageGroup');
 
--- INSERT INTO public.category ("name") VALUES('ageGroup');
+-- populate public.sub_category
 
+INSERT INTO "sub_category" ("id", "name", "category_id") VALUES
+(1,	'agriculture',	1),
+(2,	'energy',	1),
+(3,	'18-22',	2),
+(4,	'23-26',	2);
 
--- -- populate public.sub_category
+-- populate public.employee_count
 
--- INSERT INTO public.sub_category ("id", "name")
--- VALUES((SELECT nextval ('public.hibernate_sequence')), 'agriculture');
-
--- INSERT INTO public.sub_category ("id", "name")
--- VALUES((SELECT nextval ('public.hibernate_sequence')), 'energy');
-
--- INSERT INTO public.sub_category ("id", "name")
--- VALUES((SELECT nextval ('public.hibernate_sequence')), '18-22');
-
--- INSERT INTO public.sub_category ("id", "name")
--- VALUES((SELECT nextval ('public.hibernate_sequence')), '23-26');
-
-
-
--- -- populate public.sex
-
--- INSERT INTO public.sex ("type") VALUES('male');
-
--- INSERT INTO public.sex ("type") VALUES('female');
-
-
--- -- populate public.employee_count
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'agriculture',
---     2010,
---     'female',
---     12000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'agriculture',
---     2010,
---     'male',
---     15000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'agriculture',
---     2011,
---     'female',
---     16000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'agriculture',
---     2011,
---     'male',
---     17000
--- );
-
--- -- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- -- VALUES(
--- --     (SELECT nextval ('public.hibernate_sequence')), 
--- --     'agriculture',
--- --     2012,
--- --     NULL,
--- --     28000
--- -- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'energy',
---     2010,
---     'female',
---     12000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'energy',
---     2010,
---     'male',
---     12000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'energy',
---     2011,
---     'female',
---     16000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     'energy',
---     2011,
---     'male',
---     14000
--- );
-
--- -- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- -- VALUES(
--- --     (SELECT nextval ('public.hibernate_sequence')), 
--- --     'energy',
--- --     2012,
--- --     NULL,
--- --     29000
--- -- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     '18-22',
---     2010,
---     'female',
---     4000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     '18-22',
---     2010,
---     'male',
---     2000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     '18-22',
---     2011,
---     'female',
---     6000
--- );
-
--- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- VALUES(
---     (SELECT nextval ('public.hibernate_sequence')), 
---     '18-22',
---     2011,
---     'male',
---     4000
--- );
-
--- -- INSERT INTO public.employee_count ("id", "sub_category_name", "year", "sex_type", "count")
--- -- VALUES(
--- --     (SELECT nextval ('public.hibernate_sequence')), 
--- --     '18-22',
--- --     2012,
--- --     NULL,
--- --     9000
--- -- );
+INSERT INTO "employee_count" ("id", "count", "sex", "year", "sub_category_id") VALUES
+(1,	21000,	'0',	2010,	1),
+(2,	22000,	'1',	2010,	1),
+(3,	16000,	'0',	2011,	1),
+(4,	15000,	'1',	2011,	1),
+(5,	14000,	'0',	2010,	2),
+(6,	19000,	'1',	2010,	2),
+(7,	25000,	'0',	2011,	2),
+(8,	36000,	'1',	2011,	2),
+(9,	26000,	'0',	2010,	3),
+(10,	28000,	'1',	2010,	3),
+(11,	27000,	'0',	2011,	3),
+(12,	13000,	'1',	2011,	3),
+(13,	31000,	'0',	2010,	4),
+(14,	19000,	'1',	2010,	4),
+(15,	20000,	'0',	2011,	4),
+(16,	33000,	'1',	2011,	4);
