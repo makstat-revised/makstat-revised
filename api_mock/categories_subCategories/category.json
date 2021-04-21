@@ -1,0 +1,25 @@
+{
+    "category": {
+        "name": "sector",
+        "subCategories": [
+            {
+                "name": "agriculture",
+                "_links": {
+                    "self": "/categories/sector/subCategories/agriculture",
+                    "subCategories": "/categories/sector/subCategories"
+                }
+            },
+            {
+                "name": "energy",
+                "_links": {
+                    "self": "/categories/sector/subCategories/energy",
+                    "subCategories": "/categories/sector/subCategories"
+                }
+            }
+        ],
+        "_links": {
+            "self": "/categories/sector",
+            "categories": "/categories"
+        }
+    }
+}

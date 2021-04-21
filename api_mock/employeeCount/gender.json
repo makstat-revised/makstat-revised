@@ -1,0 +1,10 @@
+{
+    "gender": {
+        "gender": "male",
+        "count": 21000,
+        "_links": {
+            "self": "/employeeCount/sector/agriculture/2010/male",
+            "year": "/employeeCount/sector/agriculture/2010"
+        }
+    }
+}
