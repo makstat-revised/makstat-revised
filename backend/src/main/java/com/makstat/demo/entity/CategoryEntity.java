@@ -5,16 +5,23 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Category {
+@Table(name = "category")
+public class CategoryEntity {
 
     @Id
     private Integer id;
     @Column(unique = true)
     private String name;
 
-    public Category() {
+    public CategoryEntity() {
+    }
+
+    public CategoryEntity(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -33,15 +40,25 @@ public class Category {
         this.name = name;
     }
 
+    public CategoryEntity id(Integer id) {
+        setId(id);
+        return this;
+    }
+
+    public CategoryEntity name(String name) {
+        setName(name);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Category)) {
+        if (!(o instanceof CategoryEntity)) {
             return false;
         }
-        Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        CategoryEntity categoryEntity = (CategoryEntity) o;
+        return Objects.equals(id, categoryEntity.id) && Objects.equals(name, categoryEntity.name);
     }
 
     @Override
@@ -51,7 +68,9 @@ public class Category {
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + "}";
+        return "{" +
+            " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
+            "}";
     }
-
 }

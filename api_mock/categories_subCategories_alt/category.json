@@ -1,0 +1,10 @@
+{
+    "category": {
+        "name": "sector",
+        "subCategories": "/categories/sector/subCategories",
+        "_links": {
+            "self": "/categories/sector",
+            "categories": "/categories"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "categories": [
+        {
+            "name": "sector",
+            "subCategories": "/categories/sector/subCategories",
+            "_links": {
+                "self": "/categories/sector",
+                "categories": "/categories"
+            }
+        },
+        {
+            "name": "ageGroup",
+            "subCategories": "/categories/ageGroup/subCategories",
+            "_links": {
+                "self": "/categories/ageGroup",
+                "categories": "/categories"
+            }
+        }
+    ]
+}
