@@ -1,0 +1,9 @@
+{
+    "subCategory": {
+        "name": "agriculture",
+        "_links": {
+            "self": "/categories/sector/subCategories/agriculture",
+            "subCategories": "/categories/sector/subCategories"
+        }
+    }
+}
