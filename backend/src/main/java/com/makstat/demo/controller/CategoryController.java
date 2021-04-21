@@ -3,15 +3,18 @@ package com.makstat.demo.controller;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import com.makstat.demo.entity.Category;
-import com.makstat.demo.entity.SubCategory;
-import com.makstat.demo.repository.CategoryRepository;
-import com.makstat.demo.repository.SubCategoryRepository;
+import com.makstat.demo.entity.CategoryEntity;
+import com.makstat.demo.entity.SubCategoryEntity;
+import com.makstat.demo.model.Category;
+import com.makstat.demo.model.SubCategory;
+import com.makstat.demo.repository.CategoryEntityRepository;
+import com.makstat.demo.repository.SubCategoryEntityRepository;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -28,68 +31,51 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/categories")
 public class CategoryController {
    
-    private final CategoryRepository categoryRepository;
-    private final SubCategoryRepository subCategoryRepository;
+    private final CategoryEntityRepository categoryEntityRepository;
+    private final SubCategoryEntityRepository subCategoryEntityRepository;
 
-    CategoryController(CategoryRepository categoryRepository, SubCategoryRepository subCategoryRepository) {
-        this.categoryRepository = categoryRepository;
-        this.subCategoryRepository = subCategoryRepository;
+    CategoryController(CategoryEntityRepository categoryRepository, SubCategoryEntityRepository subCategoryRepository) {
+        this.categoryEntityRepository = categoryRepository;
+        this.subCategoryEntityRepository = subCategoryRepository;
     }
 
-    // @GetMapping()
-    // CollectionModel<EntityModel<HashMap<String, String>>> getCategories() {
-    //     List<Category> categories = categoryRepository.findAll();
-    //     HashMap<Category, List<SubCategory>> categoryAndSubCategoryMap = new HashMap<>();
-    //     categories.forEach(category -> categoryAndSubCategoryMap.put(category, subCategoryRepository.findSubCategoryByCategory(category)));
+    @GetMapping()
+    CollectionModel<EntityModel<Category>> getCategories() {
+        List<EntityModel<Category>> categoryEntityModels = categoryEntityRepository.findAll()
+            .stream()
+            .map(categoryEntity -> getCategory(categoryEntity.getName()))
+            .collect(Collectors.toList());
+        return CollectionModel.of(categoryEntityModels,
+            linkTo(methodOn(CategoryController.class).getCategories()).withSelfRel());
+    }
 
-    //     List<EntityModel<HashMap<String, String>>> 
-    //     categoryRepository.findAll();
-    //     HashMap<String, String> responseObj = new HashMap<>();
+    @GetMapping("/{categoryName}")
+    EntityModel<Category> getCategory(@PathVariable String categoryName) {
+        Category categoryResource = new Category(
+            categoryEntityRepository.findCategoryByName(categoryName).getName(),
+            getSubCategories(categoryName));
+        return EntityModel.of(categoryResource,
+            linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withSelfRel(),
+            linkTo(methodOn(CategoryController.class).getCategories()).withRel("categories"));
+    }
 
-    //     return categories;
-    // }
-
-    // @GetMapping("/{categoryName}")
-    // EntityModel<HashMap<String, String>> getCategory(@PathVariable String categoryName) {
-
-        // List<SubCategory> subCategories = subCategoryRepository.findSubCategoryByCategoryName(categoryName);
-        // HashMap<Category, List<SubCategory>> categoryAndSubCategoryMap = new HashMap<>();
-        // categories.forEach(category -> categoryAndSubCategoryMap.put(category, subCategoryRepository.findSubCategoryByCategory(category)));
-        // List<EntityModel<HashMap<String, String>>> 
-        // categoryRepository.findAll();
-        // HashMap<String, String> responseObj = new HashMap<>();
-        // return categories;
-
-    //     Category category = categoryRepository.findCategoryByName(categoryName);
-    //     List<SubCategory> subCategories = subCategoryRepository.findSubCategoryByCategoryName(categoryName);
-    //     HashMap<String, String> responseObj = new HashMap<>();
-    //     responseObj.put("name", category.getName());
-    //     responseObj.put("subCategories", subCategories.toString());
-    //     return EntityModel.of(responseObj,
-    //         linkTo(methodOn(CategoryController.class).findCategoryByName(categoryName)).withSelfRel(),
-    //         linkTo(methodOn(CategoryController.class).findAll()).withRel("categories"));
-    // }
-
-    // @GetMapping("/{categoryName}/subCategories")
-    // CollectionModel<EntityModel<HashMap<String, String>>> getSubCategories(String categoryName) {
-        // List<SubCategory> subCategories = subCategoryRepository.findSubCategoryByCategoryName(categoryName);
-        // List<Map<String, String>> subCategoriesMaps = subCategories.stream()
-        //     .map(subCategory -> Map.of("name", subCategory.getName()))
-        //     .collect(Collectors.toList());
-        // List<EntityModel<Map<String, String>>> responseObj = subCategoriesMaps.stream()
-        //     .map(subCategoryMap -> EntityModel.of(subCategoryMap,
-        //         linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategory.getName())).withSelfRel()))
-        //     .collect(Collectors.toList());
-        // return CollectionModel.of(responseObj);
-    // }
+    @GetMapping("/{categoryName}/subCategories")
+    CollectionModel<EntityModel<SubCategory>> getSubCategories(@PathVariable String categoryName) {
+        List<EntityModel<SubCategory>> subCategoryEntityModels = subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName)
+            .stream()
+            .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName()))
+            .collect(Collectors.toList());
+        return CollectionModel.of(subCategoryEntityModels,
+            linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withSelfRel(),
+            linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withRel("category"));
+    }
 
     @GetMapping("/{categoryName}/subCategories/{subCategoryName}")
-    EntityModel<HashMap<String, String>> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName) {
-        SubCategory subCategory = subCategoryRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName);
-        HashMap<String, String> responseObj = new HashMap<>();
-        responseObj.put("name", subCategory.getName());
-        // TODO: add link to all subcategories
-        return EntityModel.of(responseObj,
-            linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel());
+    EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName) {
+        SubCategory subCategoryResource = new SubCategory(
+            subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName).getName());
+        return EntityModel.of(subCategoryResource,
+            linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
+            linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withRel("subCategories"));
     }
 }
