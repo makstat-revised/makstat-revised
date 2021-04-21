@@ -16,6 +16,7 @@ import com.makstat.demo.model.SubCategory;
 import com.makstat.demo.repository.CategoryEntityRepository;
 import com.makstat.demo.repository.SubCategoryEntityRepository;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 
@@ -43,37 +44,46 @@ public class CategoryController {
     CollectionModel<EntityModel<Category>> getCategories() {
         List<EntityModel<Category>> categoryEntityModels = categoryEntityRepository.findAll()
             .stream()
-            .map(categoryEntity -> getCategory(categoryEntity.getName()))
+            .map(categoryEntity -> getCategory(categoryEntity.getName(), true))
             .collect(Collectors.toList());
         return CollectionModel.of(categoryEntityModels,
             linkTo(methodOn(CategoryController.class).getCategories()).withSelfRel());
     }
 
     @GetMapping("/{categoryName}")
-    EntityModel<Category> getCategory(@PathVariable String categoryName) {
+    EntityModel<Category> getCategory(@PathVariable String categoryName, boolean... selfRelOnly) {
         Category categoryResource = new Category(
             categoryEntityRepository.findCategoryByName(categoryName).getName(),
-            getSubCategories(categoryName));
+            getSubCategories(categoryName, true));
+        if (selfRelOnly != null && selfRelOnly[0] == true)
+            return EntityModel.of(categoryResource,
+                linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withSelfRel());    
         return EntityModel.of(categoryResource,
             linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withSelfRel(),
             linkTo(methodOn(CategoryController.class).getCategories()).withRel("categories"));
     }
 
     @GetMapping("/{categoryName}/subCategories")
-    CollectionModel<EntityModel<SubCategory>> getSubCategories(@PathVariable String categoryName) {
+    CollectionModel<EntityModel<SubCategory>> getSubCategories(@PathVariable String categoryName, boolean... selfRelOnly) {
         List<EntityModel<SubCategory>> subCategoryEntityModels = subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName)
             .stream()
-            .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName()))
+            .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName(), true))
             .collect(Collectors.toList());
+        if (selfRelOnly != null && selfRelOnly[0] == true)
+            return CollectionModel.of(subCategoryEntityModels,
+                linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withSelfRel());    
         return CollectionModel.of(subCategoryEntityModels,
             linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withSelfRel(),
             linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withRel("category"));
     }
 
     @GetMapping("/{categoryName}/subCategories/{subCategoryName}")
-    EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName) {
+    EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         SubCategory subCategoryResource = new SubCategory(
             subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName).getName());
+        if (selfRelOnly != null && selfRelOnly[0] == true)
+            return EntityModel.of(subCategoryResource,
+                linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel());
         return EntityModel.of(subCategoryResource,
             linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
             linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withRel("subCategories"));
