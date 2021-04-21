@@ -1,19 +1,12 @@
 # MakStat-Revised
 
-## Steps to run the setup in your computer
-- make sure you have installed Docker (for Windows, see Docker Desktop), and docker-compose. 
-- clone the repo
-- change working dir to the repo dir: `cd makstat-revised`
-- create the required env variables: `cp example.env .env`
-- start all containers: `docker-compose up`
-
-## Docker Setup
+## Setup
+### Docker Setup
 - The `docker` folder contains the setup for deployable images.
   The same images are used as basis for the development setup.
 - `docker-compose.yml` uses the deployable images and starts
   them with configuration tuned for development.
-
-## Docker Compose Cheat Sheet (development)
+### Docker Compose Cheat Sheet (development)
 - start all containers: `docker-compose up`
 - build and start all containers: `docker-compose up --build`
 - stop all containers: `docker-compose down`
@@ -21,3 +14,21 @@
 - run single container: `docker-compose run <service-name>`
 - run single container with different command: e.g. `docker-compose run <service-name> bash -c 'echo hello world'`
 - list and remove volumes: `docker volume ls` & `docker volume rm <volume-name>`
+
+## Instructions
+### Steps to run the setup in your computer
+- make sure you have installed Docker (for Windows, see Docker Desktop), and docker-compose. 
+- clone the repo
+- change working dir to the repo dir: `cd makstat-revised`
+- create the required env variables: `cp example.env .env`
+- start all containers: `docker-compose up`
+
+### Common Problems
+1. When pulling new changes that affect the database structure/migration files, you may need to remove the database volume in order for the backend to run without errors. To do so, run the following in the project dir:
+(WARNING: all data inserted manually in the database will be lost!)
+```
+docker-compose down
+docker volume rm makstat-revised_db_data
+docker-compose up
+```
+
