@@ -1,4 +1,4 @@
-package com.makstat.demo.model;
+package com.makstat.demo.model.common;
 
 import java.util.Objects;
 
@@ -6,23 +6,23 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 
 public class Category {
-    private String name;
+    private String category;
     private CollectionModel<EntityModel<SubCategory>> subCategories;
 
     public Category() {
     }
 
-    public Category(String name, CollectionModel<EntityModel<SubCategory>> subCategories) {
-        this.name = name;
+    public Category(String category, CollectionModel<EntityModel<SubCategory>> subCategories) {
+        this.category = category;
         this.subCategories = subCategories;
     }
 
-    public String getName() {
-        return this.name;
+    public String getCategory() {
+        return this.category;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public CollectionModel<EntityModel<SubCategory>> getSubCategories() {
@@ -33,8 +33,8 @@ public class Category {
         this.subCategories = subCategories;
     }
 
-    public Category name(String name) {
-        setName(name);
+    public Category category(String category) {
+        setCategory(category);
         return this;
     }
 
@@ -51,18 +51,18 @@ public class Category {
             return false;
         }
         Category category = (Category) o;
-        return Objects.equals(name, category.name) && Objects.equals(subCategories, category.subCategories);
+        return Objects.equals(category, category.category) && Objects.equals(subCategories, category.subCategories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, subCategories);
+        return Objects.hash(category, subCategories);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " name='" + getName() + "'" +
+            " category='" + getCategory() + "'" +
             ", subCategories='" + getSubCategories() + "'" +
             "}";
     }

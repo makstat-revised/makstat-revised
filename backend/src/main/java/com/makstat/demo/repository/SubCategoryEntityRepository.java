@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 @RepositoryRestResource(exported = false)
 public interface SubCategoryEntityRepository extends JpaRepository<SubCategoryEntity, Integer> {
     
-    List<SubCategoryEntity> findSubCategoryByCategory(CategoryEntity category);
-
     List<SubCategoryEntity> findSubCategoryByCategoryName(String name);
 
     SubCategoryEntity findSubCategoryByCategoryNameAndName(String categoryName, String name);
