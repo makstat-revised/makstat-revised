@@ -6,6 +6,16 @@ public class Gender {
     private String gender;
     private int count;
 
+    public static boolean toBoolean(String gender) {
+        return gender.equals("female");
+    }
+
+    public static String toString(boolean gender) {
+        if (gender)
+            return "female";
+        return "male";
+    }
+
     public Gender() {
     }
 

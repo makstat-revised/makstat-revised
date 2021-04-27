@@ -14,6 +14,7 @@ import com.makstat.demo.entity.SubCategoryEntity;
 import com.makstat.demo.model.Category;
 import com.makstat.demo.model.SubCategory;
 import com.makstat.demo.model.common.Gender;
+import com.makstat.demo.model.common.Year;
 import com.makstat.demo.repository.CategoryEntityRepository;
 import com.makstat.demo.repository.EmployeeCountEntityRepository;
 import com.makstat.demo.repository.SubCategoryEntityRepository;
@@ -35,17 +36,42 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class EmployeeCountController {
    
     private final EmployeeCountEntityRepository employeeCountEntityRepository;
+    private final SubCategoryEntityRepository subCategoryEntityRepository;
 
-    EmployeeCountController(EmployeeCountEntityRepository employeeCountEntityRepository) {
+    EmployeeCountController(EmployeeCountEntityRepository employeeCountEntityRepository, SubCategoryEntityRepository subCategoryEntityRepository) {
         this.employeeCountEntityRepository = employeeCountEntityRepository;
+        this.subCategoryEntityRepository = subCategoryEntityRepository;
+    }
+
+    @GetMapping("/{categoryName}/{subCategoryName}/{year}")
+    EntityModel<Year> getYear(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year) {
+        List<EntityModel<Gender>> genderEntityModels = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYear(getSubCategory(categoryName, subCategoryName), year)
+            .stream()
+            .map(employeeCountEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(employeeCountEntity.getSex()), true))
+            .collect(Collectors.toList());
+        Year yearResource = new Year(year, CollectionModel.of(genderEntityModels));
+        return EntityModel.of(yearResource,
+            linkTo(methodOn(EmployeeCountController.class).getYear(categoryName, subCategoryName, year)).withSelfRel());
     }
 
     @GetMapping("/{categoryName}/{subCategoryName}/{year}/{gender}")
-    EntityModel<SubCategory> getGender(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, @PathVariable String gender) {
+    EntityModel<Gender> getGender(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, @PathVariable String gender, boolean... selfRelOnly) {
         Gender genderResource = new Gender(
-            gender, employeeCountEntityRepository.findEmployeeCountBySubCategoryNameAndYearAndSex(subCategoryName, year, (gender.equals("male")) ? false : true));
-        return EntityModel.of(subCategoryResource,
-            linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
-            linkTo(methodOn(CategoryController.class).getSubCategories(categoryName)).withRel("subCategories"));
+            gender, 
+            employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYearAndSex(
+                getSubCategory(categoryName, subCategoryName),
+                year,
+                Gender.toBoolean(gender))
+                    .getCount());
+        if (selfRelOnly != null && selfRelOnly[0] == true)
+            return EntityModel.of(genderResource,
+                linkTo(methodOn(EmployeeCountController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel());
+        return EntityModel.of(genderResource,
+            linkTo(methodOn(EmployeeCountController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel(),
+            linkTo(methodOn(EmployeeCountController.class).getYear(categoryName, subCategoryName, year)).withRel("year"));
+    }
+
+    private SubCategoryEntity getSubCategory(String categoryName, String subCategoryName) {
+        return subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName);
     }
 }
