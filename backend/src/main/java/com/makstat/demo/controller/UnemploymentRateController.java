@@ -75,7 +75,7 @@ public class UnemploymentRateController {
         if (unemploymentRateEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = unemploymentRateEntities
             .stream()
-            .map(UnemploymentRateEntity -> getYear(categoryName, subCategoryName, UnemploymentRateEntity.getYear(), true))
+            .map(unemploymentRateEntity -> getYear(categoryName, subCategoryName, unemploymentRateEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
@@ -94,7 +94,7 @@ public class UnemploymentRateController {
         if (unemploymentRateEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Gender>> genderEntityModels = unemploymentRateEntities
             .stream()
-            .map(UnemploymentRateEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(UnemploymentRateEntity.getSex()), true))
+            .map(unemploymentRateEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(unemploymentRateEntity.getSex()), true))
             .collect(Collectors.toList());
         Year yearResource = new Year(year, CollectionModel.of(genderEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)

@@ -75,7 +75,7 @@ public class AverageWageController {
         if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = averageWageEntities
             .stream()
-            .map(AverageWageEntity -> getYear(categoryName, subCategoryName, AverageWageEntity.getYear(), true))
+            .map(averageWageEntity -> getYear(categoryName, subCategoryName, averageWageEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
@@ -94,7 +94,7 @@ public class AverageWageController {
         if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Gender>> genderEntityModels = averageWageEntities
             .stream()
-            .map(AverageWageEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(AverageWageEntity.getSex()), true))
+            .map(averageWageEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(averageWageEntity.getSex()), true))
             .collect(Collectors.toList());
         Year yearResource = new Year(year, CollectionModel.of(genderEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
