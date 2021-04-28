@@ -72,7 +72,6 @@ public class EmployeeCountController {
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         List<EmployeeCountEntity> employeeCountEntities = employeeCountEntityRepository.findEmployeeCountBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
-        if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = employeeCountEntities
             .stream()
             .distinct()

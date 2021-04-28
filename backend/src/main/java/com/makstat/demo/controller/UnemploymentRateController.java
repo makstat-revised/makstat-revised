@@ -72,7 +72,6 @@ public class UnemploymentRateController {
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         List<UnemploymentRateEntity> unemploymentRateEntities = unemploymentRateEntityRepository.findUnemploymentRateBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
-        if (unemploymentRateEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = unemploymentRateEntities
             .stream()
             .distinct()

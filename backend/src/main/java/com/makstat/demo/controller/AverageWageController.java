@@ -72,7 +72,6 @@ public class AverageWageController {
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         List<AverageWageEntity> averageWageEntities = averageWageEntityRepository.findAverageWageBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
-        if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = averageWageEntities
             .stream()
             .distinct()
