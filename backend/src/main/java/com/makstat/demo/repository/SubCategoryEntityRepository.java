@@ -2,7 +2,6 @@ package com.makstat.demo.repository;
 
 import java.util.List;
 
-import com.makstat.demo.entity.CategoryEntity;
 import com.makstat.demo.entity.SubCategoryEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;

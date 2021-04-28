@@ -1,22 +1,13 @@
 package com.makstat.demo.controller;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import com.makstat.demo.entity.CategoryEntity;
-import com.makstat.demo.entity.SubCategoryEntity;
 import com.makstat.demo.model.Category;
 import com.makstat.demo.model.SubCategory;
 import com.makstat.demo.repository.CategoryEntityRepository;
 import com.makstat.demo.repository.SubCategoryEntityRepository;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 

@@ -1,12 +1,6 @@
 package com.makstat.demo.controller;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.makstat.demo.entity.CategoryEntity;
@@ -20,7 +14,6 @@ import com.makstat.demo.repository.CategoryEntityRepository;
 import com.makstat.demo.repository.EmployeeCountEntityRepository;
 import com.makstat.demo.repository.SubCategoryEntityRepository;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 
@@ -50,7 +43,7 @@ public class EmployeeCountController {
     EntityModel<EmployeeCount> getEmployeeCount() {
         List<EntityModel<Category>> categoryEntityModels = getCategoryEntities()
             .stream()
-            .map(categoryEntity -> getCategory(categoryEntity.getName()))
+            .map(categoryEntity -> getCategory(categoryEntity.getName(), true))
             .collect(Collectors.toList());
         EmployeeCount employeeCountResource = new EmployeeCount(CollectionModel.of(categoryEntityModels));
         return EntityModel.of(employeeCountResource,
@@ -61,7 +54,7 @@ public class EmployeeCountController {
     EntityModel<Category> getCategory(@PathVariable String categoryName, boolean... selfRelOnly) {
         List<EntityModel<SubCategory>> subCategoryEntityModels = getSubCategoryEntities(categoryName)
             .stream()
-            .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName()))
+            .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName(), true))
             .collect(Collectors.toList());
         Category categoryResource = new Category(categoryName, CollectionModel.of(subCategoryEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
@@ -78,7 +71,7 @@ public class EmployeeCountController {
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         List<EntityModel<Year>> yearEntityModels = employeeCountEntityRepository.findEmployeeCountBySubCategory(getSubCategoryEntity(categoryName, subCategoryName))
             .stream()
-            .map(employeeCountEntity -> getYear(categoryName, subCategoryName, employeeCountEntity.getYear()))
+            .map(employeeCountEntity -> getYear(categoryName, subCategoryName, employeeCountEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)

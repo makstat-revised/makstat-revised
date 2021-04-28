@@ -51,7 +51,7 @@ public class SubCategory {
             return false;
         }
         SubCategory subCategory = (SubCategory) o;
-        return Objects.equals(subCategory, subCategory.subCategory) && Objects.equals(years, subCategory.years);
+        return Objects.equals(this.subCategory, subCategory.subCategory) && Objects.equals(years, subCategory.years);
     }
 
     @Override

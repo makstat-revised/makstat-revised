@@ -51,7 +51,7 @@ public class Category {
             return false;
         }
         Category category = (Category) o;
-        return Objects.equals(category, category.category) && Objects.equals(subCategories, category.subCategories);
+        return Objects.equals(this.category, category.category) && Objects.equals(subCategories, category.subCategories);
     }
 
     @Override

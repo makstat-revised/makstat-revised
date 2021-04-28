@@ -58,7 +58,7 @@ public class Gender {
             return false;
         }
         Gender gender = (Gender) o;
-        return Objects.equals(gender, gender.gender) && count == gender.count;
+        return Objects.equals(this.gender, gender.gender) && count == gender.count;
     }
 
     @Override
