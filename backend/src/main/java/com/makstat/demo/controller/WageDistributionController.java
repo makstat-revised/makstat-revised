@@ -75,6 +75,7 @@ public class WageDistributionController {
         if (wageDistributionEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = wageDistributionEntities
             .stream()
+            .distinct()
             .map(wageDistributionEntity -> getYear(categoryName, subCategoryName, wageDistributionEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));

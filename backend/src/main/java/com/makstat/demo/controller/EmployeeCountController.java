@@ -75,6 +75,7 @@ public class EmployeeCountController {
         if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = employeeCountEntities
             .stream()
+            .distinct()
             .map(employeeCountEntity -> getYear(categoryName, subCategoryName, employeeCountEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));

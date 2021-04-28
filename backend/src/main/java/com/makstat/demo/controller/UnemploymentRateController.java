@@ -75,6 +75,7 @@ public class UnemploymentRateController {
         if (unemploymentRateEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = unemploymentRateEntities
             .stream()
+            .distinct()
             .map(unemploymentRateEntity -> getYear(categoryName, subCategoryName, unemploymentRateEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));

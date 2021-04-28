@@ -109,12 +109,12 @@ public class WageDistributionEntity {
             return false;
         }
         WageDistributionEntity wageDistributionEntity = (WageDistributionEntity) o;
-        return Objects.equals(id, wageDistributionEntity.id) && Objects.equals(subCategory, wageDistributionEntity.subCategory) && year == wageDistributionEntity.year && Objects.equals(wageGroup, wageDistributionEntity.wageGroup) && count == wageDistributionEntity.count;
+        return Objects.equals(subCategory, wageDistributionEntity.subCategory) && year == wageDistributionEntity.year;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subCategory, year, wageGroup, count);
+        return Objects.hash(subCategory, year);
     }
 
     @Override

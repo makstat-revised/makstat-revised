@@ -75,6 +75,7 @@ public class AverageWageController {
         if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = averageWageEntities
             .stream()
+            .distinct()
             .map(averageWageEntity -> getYear(categoryName, subCategoryName, averageWageEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));

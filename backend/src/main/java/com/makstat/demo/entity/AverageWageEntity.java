@@ -112,12 +112,12 @@ public class AverageWageEntity {
             return false;
         }
         AverageWageEntity averageWageEntity = (AverageWageEntity) o;
-        return Objects.equals(id, averageWageEntity.id) && Objects.equals(subCategory, averageWageEntity.subCategory) && year == averageWageEntity.year && sex == averageWageEntity.sex && wage == averageWageEntity.wage;
+        return Objects.equals(subCategory, averageWageEntity.subCategory) && year == averageWageEntity.year;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subCategory, year, sex, wage);
+        return Objects.hash(subCategory, year);
     }
 
     @Override
