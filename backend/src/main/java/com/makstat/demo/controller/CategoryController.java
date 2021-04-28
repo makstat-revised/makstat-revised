@@ -3,6 +3,8 @@ package com.makstat.demo.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.makstat.demo.entity.CategoryEntity;
+import com.makstat.demo.entity.SubCategoryEntity;
 import com.makstat.demo.model.Category;
 import com.makstat.demo.model.SubCategory;
 import com.makstat.demo.repository.CategoryEntityRepository;
@@ -10,11 +12,12 @@ import com.makstat.demo.repository.SubCategoryEntityRepository;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -43,8 +46,10 @@ public class CategoryController {
 
     @GetMapping("/{categoryName}")
     EntityModel<Category> getCategory(@PathVariable String categoryName, boolean... selfRelOnly) {
+        CategoryEntity categoryEntity = categoryEntityRepository.findCategoryByName(categoryName);
+        if (categoryEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         Category categoryResource = new Category(
-            categoryEntityRepository.findCategoryByName(categoryName).getName(),
+            categoryEntity.getName(),
             getSubCategories(categoryName, true));
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(categoryResource,
@@ -56,7 +61,10 @@ public class CategoryController {
 
     @GetMapping("/{categoryName}/subCategories")
     CollectionModel<EntityModel<SubCategory>> getSubCategories(@PathVariable String categoryName, boolean... selfRelOnly) {
-        List<EntityModel<SubCategory>> subCategoryEntityModels = subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName)
+        CategoryEntity categoryEntity = categoryEntityRepository.findCategoryByName(categoryName);
+        if (categoryEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<SubCategoryEntity> subCategoryEntities = subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName);
+        List<EntityModel<SubCategory>> subCategoryEntityModels = subCategoryEntities
             .stream()
             .map(subCategoryEntity -> getSubCategory(categoryName, subCategoryEntity.getName(), true))
             .collect(Collectors.toList());
@@ -70,8 +78,10 @@ public class CategoryController {
 
     @GetMapping("/{categoryName}/subCategories/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
+        SubCategoryEntity subCategoryEntity = subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName);
+        if (subCategoryEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         SubCategory subCategoryResource = new SubCategory(
-            subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName).getName());
+            subCategoryEntity.getName());
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(subCategoryResource,
                 linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel());

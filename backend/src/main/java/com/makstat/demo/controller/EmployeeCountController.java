@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.makstat.demo.entity.CategoryEntity;
+import com.makstat.demo.entity.EmployeeCountEntity;
 import com.makstat.demo.entity.SubCategoryEntity;
 import com.makstat.demo.model.EmployeeCount;
 import com.makstat.demo.model.common.Category;
@@ -16,11 +17,12 @@ import com.makstat.demo.repository.SubCategoryEntityRepository;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -69,7 +71,9 @@ public class EmployeeCountController {
 
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
-        List<EntityModel<Year>> yearEntityModels = employeeCountEntityRepository.findEmployeeCountBySubCategory(getSubCategoryEntity(categoryName, subCategoryName))
+        List<EmployeeCountEntity> employeeCountEntities = employeeCountEntityRepository.findEmployeeCountBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
+        if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<EntityModel<Year>> yearEntityModels = employeeCountEntities
             .stream()
             .map(employeeCountEntity -> getYear(categoryName, subCategoryName, employeeCountEntity.getYear(), true))
             .collect(Collectors.toList());
@@ -86,7 +90,9 @@ public class EmployeeCountController {
 
     @GetMapping("/{categoryName}/{subCategoryName}/{year}")
     EntityModel<Year> getYear(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, boolean... selfRelOnly) {
-        List<EntityModel<Gender>> genderEntityModels = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYear(getSubCategoryEntity(categoryName, subCategoryName), year)
+        List<EmployeeCountEntity> employeeCountEntities = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYear(getSubCategoryEntity(categoryName, subCategoryName), year);
+        if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<EntityModel<Gender>> genderEntityModels = employeeCountEntities
             .stream()
             .map(employeeCountEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(employeeCountEntity.getSex()), true))
             .collect(Collectors.toList());
@@ -101,13 +107,10 @@ public class EmployeeCountController {
 
     @GetMapping("/{categoryName}/{subCategoryName}/{year}/{gender}")
     EntityModel<Gender> getGender(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, @PathVariable String gender, boolean... selfRelOnly) {
-        Gender genderResource = new Gender(
-            gender, 
-            employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYearAndSex(
-                getSubCategoryEntity(categoryName, subCategoryName),
-                year,
-                Gender.toBoolean(gender))
-                    .getCount());
+        EmployeeCountEntity employeeCountEntity = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYearAndSex(
+            getSubCategoryEntity(categoryName, subCategoryName), year, Gender.toBoolean(gender));
+        if (employeeCountEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Gender genderResource = new Gender(gender, employeeCountEntity.getCount());
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(genderResource,
                 linkTo(methodOn(EmployeeCountController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel());
@@ -117,14 +120,19 @@ public class EmployeeCountController {
     }
     
     private List<CategoryEntity> getCategoryEntities() {
-        return categoryEntityRepository.findAll();
+        List<CategoryEntity> categoryEntities = categoryEntityRepository.findAll();
+        return categoryEntities;
     }
 
     private List<SubCategoryEntity> getSubCategoryEntities(String categoryName) {
-        return subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName);
+        List<SubCategoryEntity> subCategoryEntities = subCategoryEntityRepository.findSubCategoryByCategoryName(categoryName);
+        if (subCategoryEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return subCategoryEntities;
     }
 
     private SubCategoryEntity getSubCategoryEntity(String categoryName, String subCategoryName) {
-        return subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName);
+        SubCategoryEntity subCategoryEntity = subCategoryEntityRepository.findSubCategoryByCategoryNameAndName(categoryName, subCategoryName);
+        if (subCategoryEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return subCategoryEntity;
     }
 }
