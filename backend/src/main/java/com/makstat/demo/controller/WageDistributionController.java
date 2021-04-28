@@ -28,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/WageDistribution")
+@RequestMapping("/wageDistribution")
 public class WageDistributionController {
    
     private final WageDistributionEntityRepository wageDistributionEntityRepository;
@@ -116,7 +116,8 @@ public class WageDistributionController {
                 linkTo(methodOn(WageDistributionController.class).getWageGroup(categoryName, subCategoryName, year, wageGroup)).withSelfRel());
         return EntityModel.of(wageGroupResource,
             linkTo(methodOn(WageDistributionController.class).getWageGroup(categoryName, subCategoryName, year, wageGroup)).withSelfRel(),
-            linkTo(methodOn(WageDistributionController.class).getYear(categoryName, subCategoryName, year)).withRel("year"));
+            linkTo(methodOn(WageDistributionController.class).getYear(categoryName, subCategoryName, year)).withRel("year"),
+            linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withRel("_subCategory"));
     }
     
     private List<CategoryEntity> getCategoryEntities() {
