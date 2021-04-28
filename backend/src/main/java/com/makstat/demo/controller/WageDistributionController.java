@@ -72,6 +72,7 @@ public class WageDistributionController {
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
         List<WageDistributionEntity> wageDistributionEntities = wageDistributionEntityRepository.findWageDistributionBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
+        if (wageDistributionEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<EntityModel<Year>> yearEntityModels = wageDistributionEntities
             .stream()
             .distinct()
