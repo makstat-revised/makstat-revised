@@ -8,7 +8,7 @@ import com.makstat.demo.entity.SubCategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AverageWageEntityRepository extends JpaRepository<AverageWageEntity, Integer> {
-    
+
     List<AverageWageEntity> findAverageWageBySubCategory(SubCategoryEntity subCategory);
 
     List<AverageWageEntity> findAverageWageBySubCategoryAndYear(SubCategoryEntity subCategory, int year);

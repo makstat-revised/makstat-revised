@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryRestResource(exported = false)
 public interface CategoryEntityRepository extends JpaRepository<CategoryEntity, Integer> {
-    
+
     CategoryEntity findCategoryByName(String name);
 }

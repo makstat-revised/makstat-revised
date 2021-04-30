@@ -75,7 +75,8 @@ public class SubCategoryEntity {
             return false;
         }
         SubCategoryEntity subCategoryEntity = (SubCategoryEntity) o;
-        return Objects.equals(id, subCategoryEntity.id) && Objects.equals(name, subCategoryEntity.name) && Objects.equals(category, subCategoryEntity.category);
+        return Objects.equals(id, subCategoryEntity.id) && Objects.equals(name, subCategoryEntity.name)
+                && Objects.equals(category, subCategoryEntity.category);
     }
 
     @Override
@@ -85,10 +86,7 @@ public class SubCategoryEntity {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", name='" + getName() + "'" +
-            ", category='" + getCategory() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", name='" + getName() + "'" + ", category='" + getCategory() + "'"
+                + "}";
     }
 }

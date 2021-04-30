@@ -7,8 +7,6 @@ import java.util.stream.Stream;
 public class Streams {
 
     public static <T> Stream<T> asStream(final List<T> list) {
-    return Optional.ofNullable(list)
-            .map(List::stream)
-            .orElseGet(Stream::empty);
+        return Optional.ofNullable(list).map(List::stream).orElseGet(Stream::empty);
     }
 }

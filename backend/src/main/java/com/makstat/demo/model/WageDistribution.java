@@ -48,8 +48,6 @@ public class WageDistribution {
 
     @Override
     public String toString() {
-        return "{" +
-            " categories='" + getCategories() + "'" +
-            "}";
+        return "{" + " categories='" + getCategories() + "'" + "}";
     }
 }

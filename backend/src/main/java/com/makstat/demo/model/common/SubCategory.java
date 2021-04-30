@@ -61,9 +61,6 @@ public class SubCategory {
 
     @Override
     public String toString() {
-        return "{" +
-            " subCategory='" + getSubCategory() + "'" +
-            ", years='" + getYears() + "'" +
-            "}";
+        return "{" + " subCategory='" + getSubCategory() + "'" + ", years='" + getYears() + "'" + "}";
     }
 }
