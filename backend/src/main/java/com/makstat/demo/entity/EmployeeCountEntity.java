@@ -112,12 +112,12 @@ public class EmployeeCountEntity {
             return false;
         }
         EmployeeCountEntity employeeCountEntity = (EmployeeCountEntity) o;
-        return Objects.equals(id, employeeCountEntity.id) && Objects.equals(subCategory, employeeCountEntity.subCategory) && year == employeeCountEntity.year && sex == employeeCountEntity.sex && count == employeeCountEntity.count;
+        return Objects.equals(subCategory, employeeCountEntity.subCategory) && year == employeeCountEntity.year;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subCategory, year, sex, count);
+        return Objects.hash(subCategory, year);
     }
 
     @Override

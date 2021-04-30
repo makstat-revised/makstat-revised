@@ -112,12 +112,12 @@ public class UnemploymentRateEntity {
             return false;
         }
         UnemploymentRateEntity unemploymentRateEntity = (UnemploymentRateEntity) o;
-        return Objects.equals(id, unemploymentRateEntity.id) && Objects.equals(subCategory, unemploymentRateEntity.subCategory) && year == unemploymentRateEntity.year && sex == unemploymentRateEntity.sex && rate == unemploymentRateEntity.rate;
+        return Objects.equals(subCategory, unemploymentRateEntity.subCategory) && year == unemploymentRateEntity.year;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subCategory, year, sex, rate);
+        return Objects.hash(subCategory, year);
     }
 
     @Override

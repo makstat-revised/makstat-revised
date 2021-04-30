@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.makstat.demo.entity.CategoryEntity;
-import com.makstat.demo.entity.EmployeeCountEntity;
+import com.makstat.demo.entity.AverageWageEntity;
 import com.makstat.demo.entity.SubCategoryEntity;
-import com.makstat.demo.model.EmployeeCount;
+import com.makstat.demo.model.AverageWage;
 import com.makstat.demo.model.common.Category;
 import com.makstat.demo.model.common.SubCategory;
 import com.makstat.demo.model.common.Gender;
 import com.makstat.demo.model.common.Year;
 import com.makstat.demo.repository.CategoryEntityRepository;
-import com.makstat.demo.repository.EmployeeCountEntityRepository;
+import com.makstat.demo.repository.AverageWageEntityRepository;
 import com.makstat.demo.repository.SubCategoryEntityRepository;
 
 import org.springframework.hateoas.CollectionModel;
@@ -28,28 +28,28 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/employeeCount")
-public class EmployeeCountController {
+@RequestMapping("/averageWage")
+public class AverageWageController {
    
-    private final EmployeeCountEntityRepository employeeCountEntityRepository;
+    private final AverageWageEntityRepository averageWageEntityRepository;
     private final CategoryEntityRepository categoryEntityRepository;
     private final SubCategoryEntityRepository subCategoryEntityRepository;
 
-    EmployeeCountController(EmployeeCountEntityRepository employeeCountEntityRepository, SubCategoryEntityRepository subCategoryEntityRepository, CategoryEntityRepository categoryEntityRepository) {
-        this.employeeCountEntityRepository = employeeCountEntityRepository;
+    AverageWageController(AverageWageEntityRepository averageWageEntityRepository, SubCategoryEntityRepository subCategoryEntityRepository, CategoryEntityRepository categoryEntityRepository) {
+        this.averageWageEntityRepository = averageWageEntityRepository;
         this.categoryEntityRepository = categoryEntityRepository;
         this.subCategoryEntityRepository = subCategoryEntityRepository;
     }
 
     @GetMapping("")
-    EntityModel<EmployeeCount> getEmployeeCount() {
+    EntityModel<AverageWage> getAverageWage() {
         List<EntityModel<Category>> categoryEntityModels = getCategoryEntities()
             .stream()
             .map(categoryEntity -> getCategory(categoryEntity.getName(), true))
             .collect(Collectors.toList());
-        EmployeeCount employeeCountResource = new EmployeeCount(CollectionModel.of(categoryEntityModels));
-        return EntityModel.of(employeeCountResource,
-            linkTo(methodOn(EmployeeCountController.class).getEmployeeCount()).withSelfRel());
+        AverageWage averageWageResource = new AverageWage(CollectionModel.of(categoryEntityModels));
+        return EntityModel.of(averageWageResource,
+            linkTo(methodOn(AverageWageController.class).getAverageWage()).withSelfRel());
     }
 
     @GetMapping("/{categoryName}")
@@ -61,63 +61,63 @@ public class EmployeeCountController {
         Category categoryResource = new Category(categoryName, CollectionModel.of(subCategoryEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(categoryResource,
-                linkTo(methodOn(EmployeeCountController.class).getCategory(categoryName)).withSelfRel(),
+                linkTo(methodOn(AverageWageController.class).getCategory(categoryName)).withSelfRel(),
                 linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withRel("_category"));
         return EntityModel.of(categoryResource,
-            linkTo(methodOn(EmployeeCountController.class).getCategory(categoryName)).withSelfRel(),
-            linkTo(methodOn(EmployeeCountController.class).getEmployeeCount()).withRel("employeeCount"),
+            linkTo(methodOn(AverageWageController.class).getCategory(categoryName)).withSelfRel(),
+            linkTo(methodOn(AverageWageController.class).getAverageWage()).withRel("AverageWage"),
             linkTo(methodOn(CategoryController.class).getCategory(categoryName)).withRel("_category"));
     }
 
     @GetMapping("/{categoryName}/{subCategoryName}")
     EntityModel<SubCategory> getSubCategory(@PathVariable String categoryName, @PathVariable String subCategoryName, boolean... selfRelOnly) {
-        List<EmployeeCountEntity> employeeCountEntities = employeeCountEntityRepository.findEmployeeCountBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
-        if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        List<EntityModel<Year>> yearEntityModels = employeeCountEntities
+        List<AverageWageEntity> averageWageEntities = averageWageEntityRepository.findAverageWageBySubCategory(getSubCategoryEntity(categoryName, subCategoryName));
+        if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<EntityModel<Year>> yearEntityModels = averageWageEntities
             .stream()
             .distinct()
-            .map(employeeCountEntity -> getYear(categoryName, subCategoryName, employeeCountEntity.getYear(), true))
+            .map(averageWageEntity -> getYear(categoryName, subCategoryName, averageWageEntity.getYear(), true))
             .collect(Collectors.toList());
         SubCategory subCategoryResource = new SubCategory(subCategoryName, CollectionModel.of(yearEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(subCategoryResource,
-                linkTo(methodOn(EmployeeCountController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
+                linkTo(methodOn(AverageWageController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
                 linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withRel("_subCategory"));
         return EntityModel.of(subCategoryResource,
-            linkTo(methodOn(EmployeeCountController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
-            linkTo(methodOn(EmployeeCountController.class).getCategory(categoryName)).withRel("category"),
+            linkTo(methodOn(AverageWageController.class).getSubCategory(categoryName, subCategoryName)).withSelfRel(),
+            linkTo(methodOn(AverageWageController.class).getCategory(categoryName)).withRel("category"),
             linkTo(methodOn(CategoryController.class).getSubCategory(categoryName, subCategoryName)).withRel("_subCategory"));
     }
 
     @GetMapping("/{categoryName}/{subCategoryName}/{year}")
     EntityModel<Year> getYear(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, boolean... selfRelOnly) {
-        List<EmployeeCountEntity> employeeCountEntities = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYear(getSubCategoryEntity(categoryName, subCategoryName), year);
-        if (employeeCountEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        List<EntityModel<Gender>> genderEntityModels = employeeCountEntities
+        List<AverageWageEntity> averageWageEntities = averageWageEntityRepository.findAverageWageBySubCategoryAndYear(getSubCategoryEntity(categoryName, subCategoryName), year);
+        if (averageWageEntities.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<EntityModel<Gender>> genderEntityModels = averageWageEntities
             .stream()
-            .map(employeeCountEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(employeeCountEntity.getSex()), true))
+            .map(averageWageEntity -> getGender(categoryName, subCategoryName, year, Gender.toString(averageWageEntity.getSex()), true))
             .collect(Collectors.toList());
         Year yearResource = new Year(year, CollectionModel.of(genderEntityModels));
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(yearResource,
-                linkTo(methodOn(EmployeeCountController.class).getYear(categoryName, subCategoryName, year)).withSelfRel());
+                linkTo(methodOn(AverageWageController.class).getYear(categoryName, subCategoryName, year)).withSelfRel());
         return EntityModel.of(yearResource,
-            linkTo(methodOn(EmployeeCountController.class).getYear(categoryName, subCategoryName, year)).withSelfRel(),
-            linkTo(methodOn(EmployeeCountController.class).getSubCategory(categoryName, subCategoryName)).withRel("subCategory"));
+            linkTo(methodOn(AverageWageController.class).getYear(categoryName, subCategoryName, year)).withSelfRel(),
+            linkTo(methodOn(AverageWageController.class).getSubCategory(categoryName, subCategoryName)).withRel("subCategory"));
     }
 
     @GetMapping("/{categoryName}/{subCategoryName}/{year}/{gender}")
     EntityModel<Gender> getGender(@PathVariable String categoryName, @PathVariable String subCategoryName, @PathVariable int year, @PathVariable String gender, boolean... selfRelOnly) {
-        EmployeeCountEntity employeeCountEntity = employeeCountEntityRepository.findEmployeeCountBySubCategoryAndYearAndSex(
+        AverageWageEntity averageWageEntity = averageWageEntityRepository.findAverageWageBySubCategoryAndYearAndSex(
             getSubCategoryEntity(categoryName, subCategoryName), year, Gender.toBoolean(gender));
-        if (employeeCountEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        Gender genderResource = new Gender(gender, employeeCountEntity.getCount());
+        if (averageWageEntity == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Gender genderResource = new Gender(gender, averageWageEntity.getWage());
         if (selfRelOnly != null && selfRelOnly[0] == true)
             return EntityModel.of(genderResource,
-                linkTo(methodOn(EmployeeCountController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel());
+                linkTo(methodOn(AverageWageController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel());
         return EntityModel.of(genderResource,
-            linkTo(methodOn(EmployeeCountController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel(),
-            linkTo(methodOn(EmployeeCountController.class).getYear(categoryName, subCategoryName, year)).withRel("year"));
+            linkTo(methodOn(AverageWageController.class).getGender(categoryName, subCategoryName, year, gender)).withSelfRel(),
+            linkTo(methodOn(AverageWageController.class).getYear(categoryName, subCategoryName, year)).withRel("year"));
     }
     
     private List<CategoryEntity> getCategoryEntities() {
