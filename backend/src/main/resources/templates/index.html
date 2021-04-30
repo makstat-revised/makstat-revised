@@ -5,11 +5,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo</title>
+    <title>Makstat-Revised API</title>
 </head>
 
 <body>
-    <h1>Hello!</h1>
+    <main>
+        <h1>Hello!</h1>
+        <p>This is the API for the Makstat-Revised project. If you want to know what this project is about, pleace check <a href="/WIS_ProjectProposal_KaltrinaTahiri-EliraKarpuzi-BlendHamiti.pdf">this document</a>.</p>
+        <p>To see our data visualized, please go to <a href="http://localhost:5000/">this page</a>. In the current page, you can access our data in JSON format at the following endpoints (with the provided URI formats):</p>
+        <ul>
+            <p>Data types:</p>
+            <ul>
+                <li><a href="/categories">Categories</a> and sub-categories for each category</li>
+                <ul>
+                    <li>/categories/{category}/subCategories/{subCategory}</li>
+                </ul>
+            </ul>
+        </ul>
+        <ul>
+            <p>Data:</p>
+            <ul>
+                <li><a href="/employeeCount">Employee counts</a></li>
+                <ul>
+                    <li>/employeeCount/{category}/{subCategory}/{year}/{gender}</li>
+                </ul>
+                <li><a href="/averageWage">Average net wages</a></li>
+                <ul>
+                    <li>/averageWage/{category}/{subCategory}/{year}/{gender}</li>
+                </ul>
+                <li><a href="/unemploymentRate">Unemployment rates</a></li>
+                <ul>
+                    <li>/unemploymentRate/{category}/{subCategory}/{year}/{gender}</li>
+                </ul>
+                <li><a href="/wageDistribution">Wage distribution</a></li>
+                <ul>
+                    <li>/wageDistribution/{category}/{subCategory}/{year}/{wageGroup}</li>
+                </ul>
+            </ul>
+        </ul>
+    </main>
 </body>
 
 </html>
