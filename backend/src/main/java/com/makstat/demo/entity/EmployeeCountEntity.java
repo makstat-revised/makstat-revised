@@ -122,12 +122,7 @@ public class EmployeeCountEntity {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", subCategory='" + getSubCategory() + "'" +
-            ", year='" + getYear() + "'" +
-            ", sex='" + isSex() + "'" +
-            ", count='" + getCount() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", subCategory='" + getSubCategory() + "'" + ", year='" + getYear() + "'"
+                + ", sex='" + isSex() + "'" + ", count='" + getCount() + "'" + "}";
     }
 }

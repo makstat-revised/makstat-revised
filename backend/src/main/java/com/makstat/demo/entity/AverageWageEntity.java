@@ -122,12 +122,7 @@ public class AverageWageEntity {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", subCategory='" + getSubCategory() + "'" +
-            ", year='" + getYear() + "'" +
-            ", sex='" + isSex() + "'" +
-            ", wage='" + getWage() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", subCategory='" + getSubCategory() + "'" + ", year='" + getYear() + "'"
+                + ", sex='" + isSex() + "'" + ", wage='" + getWage() + "'" + "}";
     }
 }

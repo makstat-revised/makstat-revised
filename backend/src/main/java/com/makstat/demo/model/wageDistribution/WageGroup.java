@@ -58,9 +58,6 @@ public class WageGroup {
 
     @Override
     public String toString() {
-        return "{" +
-            " wageGroup='" + getWageGroup() + "'" +
-            ", count='" + getCount() + "'" +
-            "}";
+        return "{" + " wageGroup='" + getWageGroup() + "'" + ", count='" + getCount() + "'" + "}";
     }
 }

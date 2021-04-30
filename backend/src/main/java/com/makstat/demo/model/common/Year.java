@@ -61,9 +61,6 @@ public class Year {
 
     @Override
     public String toString() {
-        return "{" +
-            " year='" + getYear() + "'" +
-            ", genders='" + getGenders() + "'" +
-            "}";
+        return "{" + " year='" + getYear() + "'" + ", genders='" + getGenders() + "'" + "}";
     }
 }

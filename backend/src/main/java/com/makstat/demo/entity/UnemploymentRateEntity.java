@@ -122,12 +122,7 @@ public class UnemploymentRateEntity {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", subCategory='" + getSubCategory() + "'" +
-            ", year='" + getYear() + "'" +
-            ", sex='" + isSex() + "'" +
-            ", rate='" + getRate() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", subCategory='" + getSubCategory() + "'" + ", year='" + getYear() + "'"
+                + ", sex='" + isSex() + "'" + ", rate='" + getRate() + "'" + "}";
     }
 }

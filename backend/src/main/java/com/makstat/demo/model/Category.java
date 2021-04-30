@@ -61,9 +61,6 @@ public class Category {
 
     @Override
     public String toString() {
-        return "{" +
-            " name='" + getName() + "'" +
-            ", subCategories='" + getSubCategories() + "'" +
-            "}";
+        return "{" + " name='" + getName() + "'" + ", subCategories='" + getSubCategories() + "'" + "}";
     }
 }

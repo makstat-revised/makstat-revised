@@ -28,7 +28,8 @@ public class WageDistributionEntity {
     public WageDistributionEntity() {
     }
 
-    public WageDistributionEntity(Integer id, SubCategoryEntity subCategory, int year, SubCategoryEntity wageGroup, int count) {
+    public WageDistributionEntity(Integer id, SubCategoryEntity subCategory, int year, SubCategoryEntity wageGroup,
+            int count) {
         this.id = id;
         this.subCategory = subCategory;
         this.year = year;
@@ -119,12 +120,7 @@ public class WageDistributionEntity {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", subCategory='" + getSubCategory() + "'" +
-            ", year='" + getYear() + "'" +
-            ", wageGroup='" + getWageGroup() + "'" +
-            ", count='" + getCount() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", subCategory='" + getSubCategory() + "'" + ", year='" + getYear() + "'"
+                + ", wageGroup='" + getWageGroup() + "'" + ", count='" + getCount() + "'" + "}";
     }
 }

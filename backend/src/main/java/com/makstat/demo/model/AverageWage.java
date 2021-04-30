@@ -48,8 +48,6 @@ public class AverageWage {
 
     @Override
     public String toString() {
-        return "{" +
-            " categories='" + getCategories() + "'" +
-            "}";
+        return "{" + " categories='" + getCategories() + "'" + "}";
     }
 }

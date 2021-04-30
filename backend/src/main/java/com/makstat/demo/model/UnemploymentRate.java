@@ -7,7 +7,6 @@ import com.makstat.demo.model.common.Category;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 
-
 public class UnemploymentRate {
     private CollectionModel<EntityModel<Category>> categories;
 
@@ -49,8 +48,6 @@ public class UnemploymentRate {
 
     @Override
     public String toString() {
-        return "{" +
-            " categories='" + getCategories() + "'" +
-            "}";
+        return "{" + " categories='" + getCategories() + "'" + "}";
     }
 }
