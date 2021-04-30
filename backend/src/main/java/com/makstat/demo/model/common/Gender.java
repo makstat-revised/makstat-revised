@@ -2,12 +2,19 @@ package com.makstat.demo.model.common;
 
 import java.util.Objects;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 public class Gender {
     private String gender;
     private int count;
 
     public static boolean toBoolean(String gender) {
-        return gender.equals("female");
+        if (gender.equals("male"))
+            return false;
+        else if (gender.equals("female"))
+            return true;
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     public static String toString(boolean gender) {
