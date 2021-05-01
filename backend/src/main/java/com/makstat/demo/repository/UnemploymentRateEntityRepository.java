@@ -14,5 +14,5 @@ public interface UnemploymentRateEntityRepository extends JpaRepository<Unemploy
     List<UnemploymentRateEntity> findUnemploymentRateBySubCategoryAndYear(SubCategoryEntity subCategory, int year);
 
     UnemploymentRateEntity findUnemploymentRateBySubCategoryAndYearAndSex(SubCategoryEntity subCategory, int year,
-            boolean sex);
+            Boolean sex);
 }

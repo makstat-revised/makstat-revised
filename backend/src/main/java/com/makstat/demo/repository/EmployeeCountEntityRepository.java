@@ -14,5 +14,5 @@ public interface EmployeeCountEntityRepository extends JpaRepository<EmployeeCou
     List<EmployeeCountEntity> findEmployeeCountBySubCategoryAndYear(SubCategoryEntity subCategory, int year);
 
     EmployeeCountEntity findEmployeeCountBySubCategoryAndYearAndSex(SubCategoryEntity subCategory, int year,
-            boolean sex);
+            Boolean sex);
 }

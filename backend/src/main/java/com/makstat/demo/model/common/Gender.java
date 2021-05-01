@@ -9,18 +9,23 @@ public class Gender {
     private String gender;
     private int count;
 
-    public static boolean toBoolean(String gender) {
-        if (gender.equals("male"))
+    public static Boolean toBoolean(String gender) {
+        if (gender == null)
+            return null;
+        else if (gender.equals("male"))
             return false;
         else if (gender.equals("female"))
             return true;
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    public static String toString(boolean gender) {
-        if (gender)
+    public static String toString(Boolean gender) {
+        if (gender == null)
+            return null;
+        else if (gender == true)
             return "female";
-        return "male";
+        else
+            return "male";
     }
 
     public Gender() {

@@ -13,5 +13,5 @@ public interface AverageWageEntityRepository extends JpaRepository<AverageWageEn
 
     List<AverageWageEntity> findAverageWageBySubCategoryAndYear(SubCategoryEntity subCategory, int year);
 
-    AverageWageEntity findAverageWageBySubCategoryAndYearAndSex(SubCategoryEntity subCategory, int year, boolean sex);
+    AverageWageEntity findAverageWageBySubCategoryAndYearAndSex(SubCategoryEntity subCategory, int year, Boolean sex);
 }
