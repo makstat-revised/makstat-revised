@@ -20,14 +20,14 @@ public class UnemploymentRateEntity {
     private SubCategoryEntity subCategory;
     @Column(nullable = false)
     private int year;
-    private boolean sex;
+    private Boolean sex;
     @Column(nullable = false)
     private int rate;
 
     public UnemploymentRateEntity() {
     }
 
-    public UnemploymentRateEntity(Integer id, SubCategoryEntity subCategory, int year, boolean sex, int rate) {
+    public UnemploymentRateEntity(Integer id, SubCategoryEntity subCategory, int year, Boolean sex, int rate) {
         this.id = id;
         this.subCategory = subCategory;
         this.year = year;
@@ -59,15 +59,15 @@ public class UnemploymentRateEntity {
         this.year = year;
     }
 
-    public boolean isSex() {
+    public Boolean isSex() {
         return this.sex;
     }
 
-    public boolean getSex() {
+    public Boolean getSex() {
         return this.sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 
@@ -94,7 +94,7 @@ public class UnemploymentRateEntity {
         return this;
     }
 
-    public UnemploymentRateEntity sex(boolean sex) {
+    public UnemploymentRateEntity sex(Boolean sex) {
         setSex(sex);
         return this;
     }

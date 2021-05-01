@@ -124,10 +124,15 @@ public class AverageWageController {
 		if (averageWageEntity == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		Gender genderResource = new Gender(gender, averageWageEntity.getWage());
-		if (selfRelOnly != null && selfRelOnly[0] == true)
+		if (selfRelOnly != null && selfRelOnly[0] == true) {
+			if (gender == null)
+				return EntityModel.of(genderResource,
+						linkTo(methodOn(AverageWageController.class).getYear(categoryName, subCategoryName, year))
+								.withSelfRel());
 			return EntityModel.of(genderResource,
 					linkTo(methodOn(AverageWageController.class).getGender(categoryName, subCategoryName, year, gender))
 							.withSelfRel());
+		}
 		return EntityModel.of(genderResource,
 				linkTo(methodOn(AverageWageController.class).getGender(categoryName, subCategoryName, year, gender))
 						.withSelfRel(),
