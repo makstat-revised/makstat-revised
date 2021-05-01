@@ -1,4 +1,7 @@
 # MakStat-Revised
+This is the repo for the MakStat-Revised project. If you want to know what this project is about, pleace check [this document](https://drive.google.com/file/d/10VEVDZCsURH2MZd_uOWtVnn_RNcUJ3hD/view?usp=sharing) (accessible from any SEEU account).
+
+Check `example.env` to get to know the configured ports and services. By default, the front-end is served at port 5000, the back-end at port 8080, and a database GUI at port 9000.
 
 ## Setup
 ### Docker Setup
