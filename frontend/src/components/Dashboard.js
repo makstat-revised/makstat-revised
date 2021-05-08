@@ -51,6 +51,10 @@ import {
   chartExample4,
 } from "../variables/charts";
 
+import data from "../../../api_mock/employeeCount/employeeCount.json"  
+
+const EmployeeCountData=data.employeeCount;
+
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -59,6 +63,9 @@ function Dashboard(props) {
   {debugger; 
   return (
     <>
+       <ul>
+                {EmployeeCountData.map(s => (<li>{s}</li>))}
+        </ul>
       <div className="content">
         <Row>
           <Col xs="12">
