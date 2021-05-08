@@ -8,6 +8,7 @@ function Navbar(props) {
                 <li className={props.page === 'home' ? 'nav-item active' : 'nav-item'}><Link className="nav-link" to="/">Home</Link></li>
                 <li className={props.page === 'stuff' ? 'nav-item active' : 'nav-item'}><Link className="nav-link" to="/stuff">Stuff</Link></li>
                 <li className={props.page === 'about' ? 'nav-item active' : 'nav-item'}><Link className="nav-link" to="/about">About</Link></li>
+                <li className={props.page === 'admin' ? 'nav-item active' : 'nav-item'}><Link className="nav-link" to="/admin">Admin</Link></li>       
             </ul>
         </nav>
     );

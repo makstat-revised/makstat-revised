@@ -15,12 +15,17 @@ module.exports = {
                 options: { presets: ["@babel/preset-env", "@babel/preset-react"] }
             },
             {
-                test: /\.scss$/i,
+                test: /\.(scss|css)$/i,
                 use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                 test: /\.(png|svg|jpg)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                loader: 'url-loader',
+                options: { limit:100000 }
             }
         ],
     },
