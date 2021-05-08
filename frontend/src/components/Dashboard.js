@@ -63,9 +63,6 @@ function Dashboard(props) {
   {debugger; 
   return (
     <>
-       <ul>
-                {EmployeeCountData.map(s => (<li>{s}</li>))}
-        </ul>
       <div className="content">
         <Row>
           <Col xs="12">
