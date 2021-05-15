@@ -15,12 +15,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useEffect, useState} from "react";
 // nodejs library that concatenates classes
 //import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
 import classNames from 'classnames';
+// import BarSimple from '../variables/chart1';
 
 // reactstrap components
 import {
@@ -50,27 +51,173 @@ import {
   chartExample3,
   chartExample4,
 } from "../variables/charts";
+import Example from "../variables/charts2";
+// import data from "../../../api_mock/employeeCount/employeeCount.json"  
 
-import data from "../../../api_mock/employeeCount/employeeCount.json"  
+// const EmployeeCountData=data.employeeCount;
 
-const EmployeeCountData=data.employeeCount;
 
 function Dashboard(props) {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
-  {debugger; 
+  const [lineAgriCulture, setLineAgriculture]= useState(undefined);
+  const [dataChart, setDataChart] = useState(undefined);
+  const getData =()=>{
+   
+  }
+  console.log("items",items);
+  useEffect(() => {
+    fetch("http://localhost:8080/employeeCount/")
+    .then(res => res.json())
+    .then(
+      (result) => { debugger;
+      
+        setIsLoaded(true);
+        console.log('result',result.categories._embedded.categories);
+        setItems(result.categories._embedded.categories); 
+        let res = result.categories._embedded.categories;
+        setDataChart([{
+          name: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[0].year}`:'kaltrina',
+          male: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[0].genders._embedded.genders[0].count}`: 'kaltrina',
+          female: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[0].genders._embedded.genders[1].count}`: 'kaltrina',
+          amt: 2400,
+        },
+        {
+          name: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[1].year}`:'kaltrina',
+          male: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[1].genders._embedded.genders[0].count}`: 'kaltrina',
+          female: res? `${res[0].subCategories._embedded.subCategories[0].years._embedded.years[1].genders._embedded.genders[1].count}`: 'kaltrina',
+          amt: 2210,
+        },
+        ])      
+       
+        if(res.length!==0){
+          let chartE1 = {
+            data1: (canvas) => {
+              let ctx = canvas.getContext("2d");
+          
+              let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+          
+              gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+              gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+              gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+          
+              return {
+                labels: [
+                  res? `${res[0].subCategories._embedded.subCategories[0].subCategory}`:"kaltrina",
+                  // items? items.years._embedded.years[0].genders._embedded.genders[0].gender: "",
+                  res? `${res[0].subCategories._embedded.subCategories[1].subCategory}`:"kaltrina",
+                //  res? `${res[0].subCategories._embedded.subCategories[2].subCategory}`:"kaltrina",
+                  // "MAY",
+                  // "JUN",
+                  // "JUL",
+                  // "AUG",
+                  // "SEP",
+                  // "OCT",
+                  // "NOV",
+                  // "DEC",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    fill: true,
+                    backgroundColor: gradientStroke,
+                    borderColor: "#1f8ef1",
+                    borderWidth: 2,
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    pointBackgroundColor: "#1f8ef1",
+                    pointBorderColor: "rgba(255,255,255,0)",
+                    pointHoverBackgroundColor: "#1f8ef1",
+                    pointBorderWidth: 20,
+                    pointHoverRadius: 4,
+                    pointHoverBorderWidth: 15,
+                    pointRadius: 4,
+                    data: [100, 70]//90]//, 70, 85, 60, 75, 60, 90, 80, 110, 100],
+                  },
+                ],
+              };
+            },
+          }
+          setLineAgriculture(chartE1);
+          console.log("chartE1", chartE1);
+        }   
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    )
+    
+  }, []);
+
+  
+// const data = [
+//   {
+//     name: 'Page A',
+//     uv: 4000,
+//     pv: 2400,
+//     amt: 2400,
+//   },
+//   {
+//     name: 'Page B',
+//     uv: 3000,
+//     pv: 1398,
+//     amt: 2210,
+//   },
+//   {
+//     name: 'Page C',
+//     uv: 2000,
+//     pv: 9800,
+//     amt: 2290,
+//   },
+//   {
+//     name: 'Page D',
+//     uv: 2780,
+//     pv: 3908,
+//     amt: 2000,
+//   },
+//   {
+//     name: 'Page E',
+//     uv: 1890,
+//     pv: 4800,
+//     amt: 2181,
+//   },
+//   {
+//     name: 'Page F',
+//     uv: 2390,
+//     pv: 3800,
+//     amt: 2500,
+//   },
+//   {
+//     name: 'Page G',
+//     uv: 3490,
+//     pv: 4300,
+//     amt: 2100,
+//   },
+// ];
+
+     
+  {
   return (
     <>
       <div className="content">
+        
+        {/* {dataChart && <Example/>
+        } */}
         <Row>
           <Col xs="12">
             <Card className="card-chart">
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">Total Shipments</h5>
+                    <h4 className="card-category">Employee Count </h4>
+                    {/* <BarSimple /> */}
+                    <Example data={dataChart}/>
                     <CardTitle tag="h2">Performance</CardTitle>
                   </Col>
                   <Col sm="6">
@@ -134,12 +281,12 @@ function Dashboard(props) {
                 </Row>
               </CardHeader>
               <CardBody>
-                <div className="chart-area">
+               {lineAgriCulture && <div className="chart-area">
                   <Line
-                    data={chartExample1[bigChartData]}
-                    options={chartExample1.options}
+                    data={lineAgriCulture.data1}
+                    options={lineAgriCulture.options}
                   />
-                </div>
+                </div> }
               </CardBody>
             </Card>
           </Col>

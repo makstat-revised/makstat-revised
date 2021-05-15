@@ -13,7 +13,7 @@ function Home() {
       })
       .catch(function (error) {
         console.log(error);
-      })
+      })    
   }, []);
 
 {debugger;
