@@ -17,6 +17,7 @@ local
 *.iml
 *.ipr
 
+/node_modules
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
