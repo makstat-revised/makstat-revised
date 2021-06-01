@@ -69,9 +69,67 @@ function Dashboard(props) {
   const [itemsArray, setItemsArray] = useState([]);
   const [itemsLabels,  setItemsLabels] = useState([]);
   const [itmTmp, setItmTmp]= useState([]);
-  let itemsArray1 = [];
+  const [example4, setExample4] = useState(undefined)
+
   console.log("items",items);
+  let temp1;
+  let itemsArray1 = [];
   useEffect(() => {
+
+  temp1 =[
+   
+    {
+      label: "Invoice Created",
+      backgroundColor: "rgb(51, 204, 51)",
+      data: [60, 20, 20, 30],
+      stack: 1
+    },
+    {
+      label: "Approved!",
+      backgroundColor: "pink",
+      data: [40, 50, 20, 45],
+      stack: 1
+    },
+    {
+      label: "Invoice Created!",
+      backgroundColor: "rgb(51, 204, 51)",
+      data: [51, 25, 10, 30],
+      stack: 2
+    },
+    {
+      label: "Approved!",
+      backgroundColor: "pink",
+      data: [45, 40, 22, 55],
+      stack: 2
+    },
+    {
+      label: "Invoice Created!",
+      backgroundColor: "rgb(51, 204, 51)",
+      data: [51, 25, 10, 30],
+      stack: 3
+    },
+    {
+      label: "Approved!",
+      backgroundColor: "pink",
+      data: [45, 40, 22, 55],
+      stack: 3
+    },
+    {
+      label: "Invoice Created!",
+      backgroundColor: "rgb(51, 204, 51)",
+      data: [51, 25, 10, 30],
+      stack: 4
+    },
+    {
+      label: "Approved!",
+      backgroundColor: "pink",
+      data: [45, 40, 22, 55],
+      stack: 4
+    }
+  ]
+      // setItmTmp(temp);
+ 
+    
     fetch("http://localhost:8080/employeeCount/")
     // {
     //   headers : { 
@@ -107,25 +165,22 @@ function Dashboard(props) {
         ]);
         let data1= result.categories._embedded.categories[0].subCategories._embedded.subCategories;
         let itemsLabels1 = [];
+
         let temp=[];
         data1 && data1.length>0 && data1.map((item, i)=> {
           word+=`subcategory: ${item.subCategory}\n`;
           itemsLabels1[i]= item.subCategory;
           let femaleCount =[];
           let maleCount = [];
+
         item.years._embedded.years.map((itm, index) => {
             word+=`year: ${itm.year}\n`;
             itm.genders._embedded.genders.map(it => {
               word+=`gender: ${it.gender} count: ${it.count}\n`
               
-              if(it.gender == "female"){
+              if(it.gender == "female"){ debugger;
                 femaleCount.push(it.count);
-                temp.push({
-                  label: "Female",
-                  backgroundColor: "pink",
-                  data: femaleCount,
-                  stack: i+1
-                });
+              
                 itemsArray1[`${item.subCategory} + ${it.gender}`]= {
                   label: "Female",
                   backgroundColor: "pink",
@@ -135,14 +190,9 @@ function Dashboard(props) {
               }
               else {
                 maleCount.push(it.count);
-                temp.push(itemsArray1[`${item.subCategory} + ${it.gender}`]= {
-                  label: " Male",
-                  backgroundColor: "blue",
-                  data: maleCount,
-                  stack: i+1
-                })
+
                 itemsArray1[`${item.subCategory} + ${it.gender}`]= {
-                  label: " Male",
+                  label: "Male",
                   backgroundColor: "blue",
                   data: maleCount,
                   stack: i+1
@@ -153,152 +203,20 @@ function Dashboard(props) {
 
         })
       })      
-
-      setItmTmp(temp);       
-
-       itemsArray1.length= data1.length;
-       itemsArray1.map((item)=>{ debugger;
-         temp.push(item);
+      console.log("word", word);
+      console.log("itemsArray1", itemsArray1);
+      let finalArray = Object.entries(itemsArray1);
+       console.log("finalArray", finalArray);
+      let finalTemp = [];
+       finalArray.map(item => {
+          finalTemp.push(item[1]);
        })
-       setItemsArray(itemsArray1);
-       setItemsLabels(itemsLabels1);
-       console.log("temp", temp)
-        if(res.length!==0){
-          let chartE1 = {
-            data1: (canvas) => {
-              let ctx = canvas.getContext("2d");
-          
-              let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
-          
-              gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
-              gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
-              gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
-          
-              return {
-                labels: [
-                  res? `${res[0].subCategories._embedded.subCategories[0].subCategory}`:"kaltrina",
-                  // items? items.years._embedded.years[0].genders._embedded.genders[0].gender: "",
-                  res? `${res[0].subCategories._embedded.subCategories[1].subCategory}`:"kaltrina",
-                ],
-                datasets: [
-                  {
-                    label: "My First dataset",
-                    fill: true,
-                    backgroundColor: gradientStroke,
-                    borderColor: "#1f8ef1",
-                    borderWidth: 2,
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    pointBackgroundColor: "#1f8ef1",
-                    pointBorderColor: "rgba(255,255,255,0)",
-                    pointHoverBackgroundColor: "#1f8ef1",
-                    pointBorderWidth: 20,
-                    pointHoverRadius: 4,
-                    pointHoverBorderWidth: 15,
-                    pointRadius: 4,
-                    data: [100, 70]//90]//, 70, 85, 60, 75, 60, 90, 80, 110, 100],
-                  },
-                ],
-              };
-            },
-          }
-          setLineAgriculture(chartE1);
-          console.log("chartE1", chartE1);
-        }   
-      },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
-      }
-    )
-    
-  }, []);
 
-  console.log("itmpTmp", itmTmp)
-  
- const labels= data.map((item)=>item.subCategory);
- const yearsAr=data.map((item)=>item.years._embedded.years);
-//  const sectorData=data.map((item)=>item[0].years._embedded.years.year);
-  const kaltrina= ['a','b','c','d'];
-  const [example4, setExample4] = useState({
-    data: {
-        labels: itemsLabels? itemsLabels: "",//['Week I', 'Week II', 'Week III', 'Week IV'],
-        datasets: itmTmp
-        // [
-        //   {
-        //     label: 'Pending Approval',
-        //     backgroundColor: 'rgb(51, 153, 255)',
-        //     data: [200, 100, 30, 15],
-        //     stack: 1,
-        //     name: 'AMR'
-        //   },
-        //   {
-        //     label: 'Invoice Created',
-        //     backgroundColor: 'rgb(51, 204, 51)',
-        //     data: [60, 20, 20, 30],
-        //     stack: 1
-        //   },
-        //   {
-        //     label: 'Approved!',
-        //     backgroundColor: 'green',
-        //     data: [40, 50, 20, 45],
-        //     stack: 1
-        //   },
-        //   {
-        //     label: 'Pending Approval',
-        //     backgroundColor: 'rgb(51, 153, 255)',
-        //     data: [25, 5, 20, 10],
-        //     stack: 2
-        //   },
-        //   {
-        //     label: 'Invoice Created!',
-        //     backgroundColor: 'rgb(51, 204, 51)',
-        //     data: [51, 25, 10, 30],
-        //     stack: 2
-        //   },
-        //   {
-        //     label: 'Approved!',
-        //     backgroundColor: 'green',
-        //     data: [45, 40, 22, 55],
-        //     stack: 2
-        //   },
-        //   {
-        //     label: 'Pending Approval',
-        //     backgroundColor: 'rgb(51, 153, 255)',
-        //     data: [35, 5, 25, 10],
-        //     stack: 3
-        //   },
-        //   {
-        //     label: 'Invoice Created!',
-        //     backgroundColor: 'rgb(51, 204, 51)',
-        //     data: [51, 25, 10, 30],
-        //     stack: 3
-        //   },
-        //   {
-        //     label: 'Approved!',
-        //     backgroundColor: 'green',
-        //     data: [45, 40, 22, 55],
-        //     stack: 3
-        //   },
-        //   {
-        //     label: 'Pending Approval',
-        //     backgroundColor: 'rgb(51, 153, 255)',
-        //     data: [15, 5, 21, 17],
-        //     stack: 4
-        //   },
-        //   {
-        //     label: 'Invoice Created!',
-        //     backgroundColor: 'rgb(51, 204, 51)',
-        //     data: [51, 25, 10, 30],
-        //     stack: 4
-        //   },
-        //   {
-        //     label: 'Approved!',
-        //     backgroundColor: 'green',
-        //     data: [45, 40, 22, 55],
-        //     stack: 4
-        //   }
-        // ]
+       console.log("FINAL TEMP", finalTemp);
+
+      setExample4({data: {
+        labels: ['Week I', 'Week II', 'Week III', 'Week IV'],
+        datasets: finalTemp,// finalArray, //Object.values(itemsArray1),
       },
 
     options: {
@@ -386,9 +304,158 @@ function Dashboard(props) {
           }
         }
       }
-    }
-  }
-)
+    }});
+  //----------------------------------------------------------------    
+        if(res.length!==0){
+          let chartE1 = {
+            data1: (canvas) => {
+              let ctx = canvas.getContext("2d");
+          
+              let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+          
+              gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+              gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+              gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+          
+              return {
+                labels: [
+                  res? `${res[0].subCategories._embedded.subCategories[0].subCategory}`:"kaltrina",
+                  // items? items.years._embedded.years[0].genders._embedded.genders[0].gender: "",
+                  res? `${res[0].subCategories._embedded.subCategories[1].subCategory}`:"kaltrina",
+                ],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    fill: true,
+                    backgroundColor: gradientStroke,
+                    borderColor: "#1f8ef1",
+                    borderWidth: 2,
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    pointBackgroundColor: "#1f8ef1",
+                    pointBorderColor: "rgba(255,255,255,0)",
+                    pointHoverBackgroundColor: "#1f8ef1",
+                    pointBorderWidth: 20,
+                    pointHoverRadius: 4,
+                    pointHoverBorderWidth: 15,
+                    pointRadius: 4,
+                    data: [100, 70]//90]//, 70, 85, 60, 75, 60, 90, 80, 110, 100],
+                  },
+                ],
+              };
+            },
+          }
+          setLineAgriculture(chartE1);
+          console.log("chartE1", chartE1);
+        }   
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    )
+    
+  }, []);
+
+  
+ const labels= data.map((item)=>item.subCategory);
+ const yearsAr=data.map((item)=>item.years._embedded.years);
+//  const sectorData=data.map((item)=>item[0].years._embedded.years.year);
+  const kaltrina= ['a','b','c','d'];
+  // const [example4, setExample4] = useState(undefined)
+    // data: {
+    //     labels: ['Week I', 'Week II', 'Week III', 'Week IV'],
+    //     datasets: temp,
+    //   },
+
+    // options: {
+    //   cornerRadius: 0,
+    //   legend: {
+    //     labels: {
+    //       generateLabels: function(chart) {
+    //         return Chart.defaults.global.legend.labels.generateLabels
+    //           .apply(this, [chart])
+    //           .filter(function(item, i) {
+    //             return i <= 2;
+    //           });
+    //       }
+    //     }
+    //   },
+    //   scales: {
+    //     xAxes: [
+    //       {
+    //         id: 'xAxis1',
+    //         type: 'category',
+    //         ticks: {
+    //           display: false
+    //         }
+    //       },
+    //       {
+    //         id: 'xAxis2',
+    //         type: 'linear',
+    //         ticks: {
+    //           beginAtZero: true,
+    //           max: 4,
+    //           min: 0,
+    //           stepSize: 0.25,
+    //           labelOffset: 15,
+
+    //           callback: function(value, index, values) {
+    //             var array = ['W1', 'W2', 'W3', 'W4'];
+    //             // console.log("values:  ", index % array.length) ;
+    //             if (index == values.length - 1) return '';
+    //             return array[index % array.length];
+    //           }
+    //         }
+    //       },
+    //       {
+    //         id: 'xAxis3',
+    //         type: 'linear',
+    //         ticks: {
+    //           beginAtZero: true,
+    //           max: 4,
+    //           min: 0,
+    //           stepSize: 1,
+    //           labelOffset: 55,
+    //           callback: function(value, index, values) {
+    //             var weeks = kaltrina;
+    //             return weeks[index];
+    //           }
+    //         }
+    //       }
+    //     ],
+    //     yAxes: [
+    //       {
+    //         stacked: true
+    //       }
+    //     ]
+    //   },
+    //   tooltips: {
+    //     mode: 'nearest',
+    //     callbacks: {
+    //       title: function(tooltipItem, data) {
+    //         const arr = [
+    //           'W1',
+    //           'W1',
+    //           'W1',
+    //           'W2',
+    //           'W2',
+    //           'W2',
+    //           'W3',
+    //           'W3',
+    //           'W3',
+    //           'W4',
+    //           'W4',
+    //           'W4'
+    //         ];
+    //         // console.log(tooltipItem);
+    //         return arr[tooltipItem[0].datasetIndex];
+    //       }
+    //     }
+    //   }
+    // }
+  // }
+// )
 
 // window.chart =require("../variables/RoundedBars");
 
@@ -470,11 +537,6 @@ let word ="";
 
                        
                         {data && data.length>0 && data.map((item)=><h1>{item.subCategory}</h1>)}
-
-                        {data && data.length>0 && data.map((item)=>console.log('years::::',item.years._embedded.years))}
-                        {data && data.length>0 && data.map((item)=>console.log('.subcae::',item.subCategory))}
-                        {data && data.length>0 && data.map((item)=>console.log('.subcae::',item.subCategory))}
-                        {yearsAr && yearsAr.length>0 && data[0].years._embedded.years.map((item)=>console.log('.genders::',item))}
                         
                         {/* {
                           data && data.length>0 && data.map((item, i)=> {
@@ -513,9 +575,6 @@ let word ="";
                           })
                          
                         } */}
-                        { console.log("word", word)}
-                        { console.log("labels", itemsLabels)}
-                        { console.log("itemsArray", itemsArray)}
                         </div>
                       </Button>
                     </ButtonGroup>
@@ -570,10 +629,10 @@ let word ="";
               {/* <CardBody> */}
                 <div>
                 {/* <div className="chart-area"> */}
-                  <Bar
+                 {example4 &&  <Bar
                     data={example4.data}
                     options={example4.options}
-                  />
+                  /> }
                 </div>
               {/* </CardBody> */}
             </Card>
