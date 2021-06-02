@@ -2,17 +2,19 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-    entry: path.resolve(__dirname, "src", "index.js"),
+    entry: ["babel-polyfill", "./src/index.js"],
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 loader: "babel-loader",
-                options: { presets: ["@babel/preset-env", "@babel/preset-react"] }
+                options: {
+                    presets: ["@babel/preset-env", "@babel/preset-react"],
+                },
             },
             {
                 test: /\.(scss|css)$/i,
@@ -20,13 +22,13 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpg)$/i,
-                type: 'asset/resource',
+                type: "asset/resource",
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                loader: 'url-loader',
-                options: { limit:100000 }
-            }
+                loader: "url-loader",
+                options: { limit: 100000 },
+            },
         ],
     },
     resolve: {
@@ -35,22 +37,22 @@ module.exports = {
             "@pages": path.resolve(__dirname, "src", "pages"),
             "@styles": path.resolve(__dirname, "src", "scss"),
             "@assets": path.resolve(__dirname, "src", "assets"),
-            "@src": path.resolve(__dirname, "src")
-        }
+            "@src": path.resolve(__dirname, "src"),
+        },
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "[name].bundle.js"
+        filename: "[name].bundle.js",
     },
     optimization: {
-        splitChunks: { chunks: "all" }
+        splitChunks: { chunks: "all" },
     },
     devtool: "source-map",
     devServer: {
         contentBase: path.join(__dirname, "public"), // serve static files
         compress: true,
         liveReload: true,
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         port: 5000,
         open: true,
         historyApiFallback: true,
@@ -58,7 +60,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "public", "index.html"),
-            favicon: path.resolve(__dirname, "public", "favicon.ico")
+            favicon: path.resolve(__dirname, "public", "favicon.ico"),
         }),
         // new CopyPlugin({
         //     // patterns: [
@@ -68,6 +70,6 @@ module.exports = {
         //     // }
         //     // ],
         // }),
-        new Dotenv()
+        new Dotenv(),
     ],
 };
