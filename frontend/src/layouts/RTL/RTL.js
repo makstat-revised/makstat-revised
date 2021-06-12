@@ -21,15 +21,15 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // core components
-import RTLNavbar from "components/Navbars/RTLNavbar.js";
-import Footer from "components/Footer/Footer.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+import RTLNavbar from "@components/Navbars/RTLNavbar.js";
+import Footer from "@components/Footer/Footer.js";
+import Sidebar from "@components/Sidebar/Sidebar.js";
+import FixedPlugin from "@components/FixedPlugin/FixedPlugin.js";
 
-import routes from "routes.js";
+import routes from "@routes.js";
 
-import logo from "assets/img/react-logo.png";
-import { BackgroundColorContext } from "contexts/BackgroundColorContext";
+import logo from "@assets/img/react-logo.png";
+import { BackgroundColorContext } from "@contexts/BackgroundColorContext";
 
 var ps;
 
