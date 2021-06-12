@@ -21,15 +21,15 @@ import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // core components
-import AdminNavbar from "@components/Navbars/AdminNavbar";
-import Footer from "@components/Footer/Footer";
-import Sidebar from "@components/Sidebar/Sidebar";
-// import FixedPlugin from "@components/FixedPlugin/FixedPlugin";
+import AdminNavbar from "components/Navbars/AdminNavbar.js";
+import Footer from "components/Footer/Footer.js";
+import Sidebar from "components/Sidebar/Sidebar.js";
+import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
-import routes from "@src/routes";
+import routes from "routes.js";
 
-//import logo from "@src/assets/im" // "@assets/img/react-logo.png";
-import { BackgroundColorContext } from  "@src/contexts/BackgroundColorContext";
+import logo from "assets/img/react-logo.png";
+import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
 
@@ -54,7 +54,7 @@ function Admin(props) {
     // Specify how to clean up after this effect:
     return function cleanup() {
       if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();  
+        ps.destroy();
         document.documentElement.classList.add("perfect-scrollbar-off");
         document.documentElement.classList.remove("perfect-scrollbar-on");
       }
@@ -101,7 +101,6 @@ function Admin(props) {
     }
     return "Brand";
   };
-  {debugger;
   return (
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
@@ -109,11 +108,11 @@ function Admin(props) {
           <div className="wrapper">
             <Sidebar
               routes={routes}
-              // logo={{
-              //   outterLink: "https://www.creative-tim.com/",
-              //   text: "Creative Tim",
-              //   imgSrc: logo,
-              // }}
+              logo={{
+                outterLink: "https://www.creative-tim.com/",
+                text: "Creative Tim",
+                imgSrc: logo,
+              }}
               toggleSidebar={toggleSidebar}
             />
             <div className="main-panel" ref={mainPanelRef} data={color}>
@@ -126,17 +125,17 @@ function Admin(props) {
                 {getRoutes(routes)}
                 <Redirect from="*" to="/admin/dashboard" />
               </Switch>
-              {/* {
+              {
                 // we don't want the Footer to be rendered on map page
                 location.pathname === "/admin/maps" ? null : <Footer fluid />
-              } */}
+              }
             </div>
           </div>
-          {/* <FixedPlugin bgColor={color} handleBgClick={changeColor} /> */}
+          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>
   );
-}};
+}
 
 export default Admin;

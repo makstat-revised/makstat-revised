@@ -35,8 +35,8 @@ import {
   Nav,
   Container,
   Modal,
-  NavbarToggler,
   ModalHeader,
+  NavbarToggler,
 } from "reactstrap";
 
 function AdminNavbar(props) {
@@ -81,7 +81,7 @@ function AdminNavbar(props) {
                 toggled: props.sidebarOpened,
               })}
             >
-              <NavbarToggler onClick={props.toggleSidebar}>
+              <NavbarToggler type="button" onClick={props.toggleSidebar}>
                 <span className="navbar-toggler-bar bar1" />
                 <span className="navbar-toggler-bar bar2" />
                 <span className="navbar-toggler-bar bar3" />
@@ -97,7 +97,7 @@ function AdminNavbar(props) {
             <span className="navbar-toggler-bar navbar-kebab" />
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
-            <Nav className="ml-auto" navbar>
+            <Nav className="mr-auto" navbar>
               <InputGroup className="search-bar">
                 <Button color="link" onClick={toggleModalSearch}>
                   <i className="tim-icons icon-zoom-split" />
@@ -115,7 +115,7 @@ function AdminNavbar(props) {
                   <i className="tim-icons icon-sound-wave" />
                   <p className="d-lg-none">Notifications</p>
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
+                <DropdownMenu className="dropdown-navbar" tag="ul" right>
                   <NavLink tag="li">
                     <DropdownItem className="nav-item">
                       Mike John responded to your email
@@ -159,7 +159,7 @@ function AdminNavbar(props) {
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
+                <DropdownMenu className="dropdown-navbar" tag="ul">
                   <NavLink tag="li">
                     <DropdownItem className="nav-item">Profile</DropdownItem>
                   </NavLink>
